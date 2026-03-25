@@ -24,4 +24,16 @@ public class UserService {
         users.add(newUser);
         return newUser;
     }
+
+    public User getUserById(Long id) {
+        return users.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
+
+    public void deleteUser(Long id) {
+        User user = getUserById(id);
+        users.remove(user);
+    }
 }
