@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Getter
@@ -45,5 +46,18 @@ public class UserService {
         existingUser.setAllergy(userDetails.getAllergy());
 
         return existingUser;
+    }
+
+    public List<User> searchByName(String nombre) {
+        return users.stream()
+                .filter(user -> user.getNombre() != null &&
+                        user.getNombre().equalsIgnoreCase(nombre))
+                .collect(Collectors.toList());
+    }
+
+    public List<User> saveMultipleUsers(List<User> newUsers) {
+        return newUsers.stream()
+                .map(this::saveUser)
+                .toList();
     }
 }

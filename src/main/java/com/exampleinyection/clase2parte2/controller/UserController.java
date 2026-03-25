@@ -44,4 +44,16 @@ public class UserController {
         User updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
+
+    @GetMapping("/user/search")
+    public ResponseEntity<List<User>> searchUsers(@RequestParam String nombre) {
+        List<User> usersFound = userService.searchByName(nombre);
+
+        return ResponseEntity.ok(usersFound);
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<User>> createMultipleUsers(@RequestBody @Valid List<User> users) {
+        return ResponseEntity.ok(userService.saveMultipleUsers(users));
+    }
 }
