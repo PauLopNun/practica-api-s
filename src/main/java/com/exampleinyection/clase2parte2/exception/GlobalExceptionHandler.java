@@ -1,39 +1,42 @@
 package com.exampleinyection.clase2parte2.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleNotFound(UserNotFoundException e) {
-
-        return crearRespuesta(HttpStatus.NOT_FOUND, "Recurso no encontrado", e.getMessage());
+    public ResponseEntity<ErrorResponse> handleNotFound(UserNotFoundException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.create(e, HttpStatusCode.valueOf(404), e.getMessage()));
     }
 
     @ExceptionHandler(InvalidUserException.class)
-    public ResponseEntity<Object> handleBadRequest(InvalidUserException e) {
-
-        return crearRespuesta(HttpStatus.BAD_REQUEST, "Error de validación", e.getMessage());
-
+    public ResponseEntity<ErrorResponse> handleBadRequest(InvalidUserException e) {
+        return ResponseEntity
+                .status(417)
+                .body(ErrorResponse.create(e, HttpStatusCode.valueOf(417), e.getMessage()));
     }
 
-    private ResponseEntity<Object> crearRespuesta(HttpStatus status, String error, String mensaje) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException e) {
+        String mensaje = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return ResponseEntity
+                .status(400)
+                .body(ErrorResponse.create(e, HttpStatusCode.valueOf(400), mensaje));
+    }
 
-        Map<String, Object> body = new LinkedHashMap<>();
-
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", status.value());
-        body.put("error", error);
-        body.put("message", mensaje);
-
-        return new ResponseEntity<>(body, status);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericError(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorResponse.create(e, HttpStatusCode.valueOf(500), "Error interno inesperado"));
     }
 }

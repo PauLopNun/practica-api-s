@@ -56,4 +56,10 @@ public class UserController {
     public ResponseEntity<List<User>> createMultipleUsers(@RequestBody @Valid List<User> users) {
         return ResponseEntity.ok(userService.saveMultipleUsers(users));
     }
+    @GetMapping
+    public List<User> getUsers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return userService.getPaginatedUsers(page, size);
+    }
 }
