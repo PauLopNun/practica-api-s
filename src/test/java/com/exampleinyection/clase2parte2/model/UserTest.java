@@ -4,20 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UserTest {
     @Test
     void testUser() {
-        User u = new User(1L, "Pepe", 20, null);
-        assertEquals(1L, u.getId());
-        assertEquals("Pepe", u.getNombre());
-        assertEquals(20, u.getEdad());
-        assertEquals(null, u.getAllergy());
-        u.setId(2L);
-        u.setNombre("Paco");
-        u.setEdad(22);
-        u.setAllergy(java.util.List.of());
-        assertEquals(2L, u.getId());
-        assertEquals("Paco", u.getNombre());
-        assertEquals(22, u.getEdad());
-        u.toString();
-        u.hashCode();
-        u.equals(new User(2L, "Paco", 22, java.util.List.of()));
+        User user = new User(1L, "Pepe", 20, null);
+        assertEquals(1L, user.getId());
+        assertEquals("Pepe", user.getName());
+        assertEquals(20, user.getAge());
+        assertEquals(null, user.getAllergies());
+        user.setId(2L);
+        user.setName("Paco");
+        user.setAge(22);
+        user.setAllergies(java.util.List.of());
+        assertEquals(2L, user.getId());
+        assertEquals("Paco", user.getName());
+        assertEquals(22, user.getAge());
+        user.toString();
+        user.hashCode();
+        user.equals(new User(2L, "Paco", 22, java.util.List.of()));
     }
 }

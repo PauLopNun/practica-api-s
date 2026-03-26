@@ -1,52 +1,51 @@
 @echo off
-REM Script para demostrar los perfiles de Spring y variables de entorno
+REM Script de demostración: Perfiles de Spring Boot y variables de entorno
 
 echo.
-echo ========================================
-echo Demostración: Perfiles de Spring Boot
-echo ========================================
+echo ================================================
+echo Demostración: Perfiles y Configuracion Spring Boot
+echo ================================================
 echo.
 
-echo 1. Ejecutando con perfil LOCAL (por defecto)
-echo    - Password: default_local_password
-echo.
-REM timeout /t 2 /nobreak
-
-echo 2. Ejecutando con perfil DEV
-echo    - Password: dev_password_123
-echo.
-REM timeout /t 2 /nobreak
-
-echo 3. Ejecutando con perfil PROD
-echo    - Password: prod_password_securely_set
-echo.
-REM timeout /t 2 /nobreak
-
-echo 4. Ejecutando con variable de entorno personalizada
-echo    - DB_PASSWORD: mi_contraseña_super_secreta
+echo 1. PERFIL LOCAL (por defecto)
+echo    Password: default_local_password
+echo    Comando: mvnw.cmd spring-boot:run
 echo.
 
-echo ========================================
-echo Para ejecutar, usa estos comandos:
-echo ========================================
+echo 2. PERFIL DEV
+echo    Password: dev_password_123
+echo    Comando: mvnw.cmd spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev"
 echo.
-echo Perfil LOCAL (defecto):
-echo   mvnw.cmd spring-boot:run
+
+echo 3. PERFIL PROD
+echo    Password: prod_password_securely_set
+echo    Comando: mvnw.cmd spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod"
 echo.
-echo Perfil DEV:
-echo   mvnw.cmd spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev"
+
+echo 4. CON VARIABLE DE ENTORNO PERSONALIZADA
+echo    Comandos:
+echo    set DB_PASSWORD=mi_contraseña_super_secreta
+echo    mvnw.cmd spring-boot:run
 echo.
-echo Perfil PROD:
-echo   mvnw.cmd spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod"
+
+echo ================================================
+echo EJECUTAR TESTS
+echo ================================================
 echo.
-echo Con variable de entorno personalizada:
-echo   set DB_PASSWORD=mi_contraseña_super_secreta
-echo   mvnw.cmd spring-boot:run
+echo Comando: mvnw.cmd test
 echo.
-echo ========================================
-echo Para ejecutar los tests:
-echo ========================================
+
+echo ================================================
+echo GENERAR JAR
+echo ================================================
 echo.
-echo   mvnw.cmd test
+echo Comando: mvnw.cmd clean package
 echo.
+
+echo ================================================
+echo Ver detalles en README.md y CONFIGURACION.md
+echo ================================================
+echo.
+
+
 

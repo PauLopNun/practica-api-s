@@ -28,26 +28,26 @@ class UserServiceTest {
     }
     @Test
     void saveUser_withNullName() {
-        UserRequest req = new UserRequest(null, -1, null);
-        User u = userService.saveUser(req);
-        assertEquals("DefaultName", u.getNombre());
-        assertEquals(18, u.getEdad());
+        UserRequest request = new UserRequest(null, -1, null);
+        User user = userService.saveUser(request);
+        assertEquals("DefaultName", user.getName());
+        assertEquals(18, user.getAge());
     }
 
     @Test
     void saveUser_withNullAgeAndEmptyName() {
-        UserRequest req = new UserRequest("", null, null);
-        User u = userService.saveUser(req);
-        assertEquals("DefaultName", u.getNombre());
-        assertEquals(18, u.getEdad());
+        UserRequest request = new UserRequest("", null, null);
+        User user = userService.saveUser(request);
+        assertEquals("DefaultName", user.getName());
+        assertEquals(18, user.getAge());
     }
 
     @Test
     void saveUser_withValidData() {
-        UserRequest req = new UserRequest("Pepe", 20, null);
-        User u = userService.saveUser(req);
-        assertEquals("Pepe", u.getNombre());
-        assertEquals(20, u.getEdad());
+        UserRequest request = new UserRequest("Pepe", 20, null);
+        User user = userService.saveUser(request);
+        assertEquals("Pepe", user.getName());
+        assertEquals(20, user.getAge());
     }
     @Test
     void getUserById_notFound() {
@@ -61,26 +61,24 @@ class UserServiceTest {
     }
     @Test
     void updateUser() {
-        User u = userService.saveUser(new UserRequest("Pepe", 20, null));
-        User updated = userService.updateUser(u.getId(), new UserRequest("Paco", 22, null));
-        assertEquals("Paco", updated.getNombre());
-        assertEquals(22, updated.getEdad());
+        User user = userService.saveUser(new UserRequest("Pepe", 20, null));
+        User updatedUser = userService.updateUser(user.getId(), new UserRequest("Paco", 22, null));
+        assertEquals("Paco", updatedUser.getName());
+        assertEquals(22, updatedUser.getAge());
     }
 
     @Test
     void updateUser_partialAndEmpty() {
-        User u = userService.saveUser(new UserRequest("Pepe", 20, null));
+        User user = userService.saveUser(new UserRequest("Pepe", 20, null));
         
-        // request with blank name, zero age, non-null allergy
-        User updated = userService.updateUser(u.getId(), new UserRequest("   ", 0, java.util.List.of(new com.exampleinyection.clase2parte2.model.Allergy("Peanuts", 3))));
-        assertEquals("Pepe", updated.getNombre()); // Unchanged
-        assertEquals(20, updated.getEdad()); // Unchanged
-        assertNotNull(updated.getAllergy());
+        User updatedUser = userService.updateUser(user.getId(), new UserRequest("   ", 0, java.util.List.of(new com.exampleinyection.clase2parte2.model.Allergy("Peanuts", 3))));
+        assertEquals("Pepe", updatedUser.getName());
+        assertEquals(20, updatedUser.getAge());
+        assertNotNull(updatedUser.getAllergies());
 
-        // request with nulls
-        User updated2 = userService.updateUser(u.getId(), new UserRequest(null, null, null));
-        assertEquals("Pepe", updated2.getNombre()); // Unchanged
-        assertEquals(20, updated2.getEdad()); // Unchanged
+        User updatedUserWithNulls = userService.updateUser(user.getId(), new UserRequest(null, null, null));
+        assertEquals("Pepe", updatedUserWithNulls.getName());
+        assertEquals(20, updatedUserWithNulls.getAge());
     }
 
     @Test

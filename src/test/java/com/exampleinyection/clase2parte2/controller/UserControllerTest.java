@@ -34,24 +34,24 @@ class UserControllerTest {
         when(userService.getPaginatedUsers(1, 10)).thenReturn(List.of(new User(1L, "Pepe", 20, null)));
         mockMvc.perform(get("/api?page=1&size=10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].nombre").value("Pepe"));
+                .andExpect(jsonPath("$[0].name").value("Pepe"));
     }
     @Test
     void getUserById() throws Exception {
         when(userService.getUserById(1L)).thenReturn(new User(1L, "Pepe", 20, null));
         mockMvc.perform(get("/api/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Pepe"));
+                .andExpect(jsonPath("$.name").value("Pepe"));
     }
     @Test
     void createUser() throws Exception {
         when(userService.saveUser(any())).thenReturn(new User(1L, "Pepe", 20, null));
-        UserRequest req = new UserRequest("Pepe", 20, null);
+        UserRequest request = new UserRequest("Pepe", 20, null);
         mockMvc.perform(post("/api")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(req)))
+                        .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Pepe"));
+                .andExpect(jsonPath("$.name").value("Pepe"));
     }
     @Test
     void deleteUser() throws Exception {
@@ -68,19 +68,19 @@ class UserControllerTest {
     @Test
     void updateUser() throws Exception {
         when(userService.updateUser(eq(1L), any())).thenReturn(new User(1L, "Paco", 22, null));
-        UserRequest req = new UserRequest("Paco", 22, null);
+        UserRequest request = new UserRequest("Paco", 22, null);
         mockMvc.perform(put("/api/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(req)))
+                        .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Paco"));
+                .andExpect(jsonPath("$.name").value("Paco"));
     }
     @Test
     void searchUsers() throws Exception {
         when(userService.searchByName("pa")).thenReturn(List.of(new User(1L, "Paco", 22, null)));
         mockMvc.perform(get("/api/user/search?nombre=pa"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].nombre").value("Paco"));
+                .andExpect(jsonPath("$[0].name").value("Paco"));
     }
     @Test
     void createMultipleUsers() throws Exception {

@@ -4,26 +4,26 @@
 
 La aplicación ha sido configurada correctamente con:
 
-### 1. **Perfiles de Spring (Dev, Local, Prod)**
-   - Perfil **local** activo por defecto (configurado en `application.yml`)
+### 1. Perfiles de Spring (Dev, Local, Prod)
+   - Perfil local activo por defecto (configurado en application.yml)
    - Perfiles separados en archivos YAML:
-     - `application-local.yml`
-     - `application-dev.yml`
-     - `application-prod.yml`
+     - application-local.yml
+     - application-dev.yml
+     - application-prod.yml
 
-### 2. **Propiedades Sensibles con Variables de Entorno**
-   - Propiedad `password` añadida a `AppConfig`
-   - Configurada para usar variables de entorno: `${DB_PASSWORD:valor_por_defecto}`
-   - En producción, la contraseña **NUNCA** debe aparecer en los archivos de configuración
+### 2. Propiedades Sensibles con Variables de Entorno
+   - Propiedad password añadida a AppConfig
+   - Configurada para usar variables de entorno: ${DB_PASSWORD:valor_por_defecto}
+   - En producción, la contraseña NUNCA debe aparecer en los archivos de configuración
 
-### 3. **Validación @NotNull y @Validated**
-   - `@Validated` añadido a `AppConfig`
-   - `@NotNull @Valid` en propiedades de configuración
+### 3. Validación @NotNull y @Validated
+   - @Validated añadido a AppConfig
+   - @NotNull @Valid en propiedades de configuración
    - Valores por defecto inicializados para evitar errores de validación
 
-### 4. **Tests Unitarios**
-   - Todos los tests pasan: **41 tests, 0 failures**
-   - Incluyen pruebas de la propiedad `password`
+### 4. Tests Unitarios
+   - Todos los tests pasan: 41 tests, 0 failures
+   - Incluyen pruebas de la propiedad password
 
 ---
 

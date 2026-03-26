@@ -29,13 +29,13 @@ class UserServiceExtraTest {
     void testBlankName() {
         UserRequest request = new UserRequest("   ", 25, List.of(new Allergy("Pollen", 2)));
         User saved = userService.saveUser(request);
-        assertEquals("DefaultName", saved.getNombre(), "Empty blank names should use default");
+        assertEquals("DefaultName", saved.getName(), "Empty blank names should use default");
     }
     @Test
     void testNegativeAge() {
         UserRequest request = new UserRequest("John", -10, null);
         User saved = userService.saveUser(request);
-        assertEquals(18, saved.getEdad(), "Negative age should use default");
+        assertEquals(18, saved.getAge(), "Negative age should use default");
     }
     @Test
     void testZeroSizePagination() {

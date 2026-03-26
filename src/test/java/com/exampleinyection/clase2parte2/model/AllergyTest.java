@@ -4,15 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AllergyTest {
     @Test
     void testAllergy() {
-        Allergy a = new Allergy("Polen", 5);
-        assertEquals("Polen", a.getNombre());
-        assertEquals(5, a.getGravity());
-        a.setNombre("Polvo");
-        a.setGravity(2);
-        assertEquals("Polvo", a.getNombre());
-        assertEquals(2, a.getGravity());
-        a.toString();
-        a.hashCode();
-        a.equals(new Allergy("Polvo", 2));
+        Allergy allergy = new Allergy("Pollen", 5);
+        assertEquals("Pollen", allergy.getName());
+        assertEquals(5, allergy.getSeverity());
+        allergy.setName("Dust");
+        allergy.setSeverity(2);
+        assertEquals("Dust", allergy.getName());
+        assertEquals(2, allergy.getSeverity());
+        allergy.toString();
+        allergy.hashCode();
+        allergy.equals(new Allergy("Dust", 2));
     }
 }
