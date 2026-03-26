@@ -1,0 +1,10 @@
+app:
+  name: "Mi App GFT - LOCAL"
+  update:
+    disabled: false
+    message: "No se puede actualizar ahora mismo"
+  pagination:
+    max-size: 50
+  defaults:
+    name: "Usuario Anónimo"
+    age: 18

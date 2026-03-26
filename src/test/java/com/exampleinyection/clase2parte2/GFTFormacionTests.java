@@ -10,4 +10,9 @@ class GFTFormacionTests {
     void contextLoads() {
     }
 
+    @Test
+    void main() {
+        GFTFormacion.main(new String[]{"--server.port=0", "--spring.main.web-application-type=none"});
+    }
+
 }

@@ -33,6 +33,15 @@ class UserServiceTest {
         assertEquals("DefaultName", u.getNombre());
         assertEquals(18, u.getEdad());
     }
+
+    @Test
+    void saveUser_withNullAgeAndEmptyName() {
+        UserRequest req = new UserRequest("", null, null);
+        User u = userService.saveUser(req);
+        assertEquals("DefaultName", u.getNombre());
+        assertEquals(18, u.getEdad());
+    }
+
     @Test
     void saveUser_withValidData() {
         UserRequest req = new UserRequest("Pepe", 20, null);
@@ -57,6 +66,23 @@ class UserServiceTest {
         assertEquals("Paco", updated.getNombre());
         assertEquals(22, updated.getEdad());
     }
+
+    @Test
+    void updateUser_partialAndEmpty() {
+        User u = userService.saveUser(new UserRequest("Pepe", 20, null));
+        
+        // request with blank name, zero age, non-null allergy
+        User updated = userService.updateUser(u.getId(), new UserRequest("   ", 0, java.util.List.of(new com.exampleinyection.clase2parte2.model.Allergy("Peanuts", 3))));
+        assertEquals("Pepe", updated.getNombre()); // Unchanged
+        assertEquals(20, updated.getEdad()); // Unchanged
+        assertNotNull(updated.getAllergy());
+
+        // request with nulls
+        User updated2 = userService.updateUser(u.getId(), new UserRequest(null, null, null));
+        assertEquals("Pepe", updated2.getNombre()); // Unchanged
+        assertEquals(20, updated2.getEdad()); // Unchanged
+    }
+
     @Test
     void updateUser_disabled() {
         appConfig.getUpdate().setDisabled(true);

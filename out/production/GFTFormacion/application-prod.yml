@@ -1,0 +1,10 @@
+app:
+  name: "Mi App GFT REAL"
+  update:
+    disabled: true
+    message: "¡PELIGRO! No se puede actualizar en PRODUCCIÓN"
+  pagination:
+    max-size: 100
+  defaults:
+    name: "Usuario_Anonimo"
+    age: 18

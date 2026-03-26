@@ -1,0 +1,10 @@
+app:
+  name: "GFT - Entorno DESARROLLO"
+  update:
+    disabled: true
+    message: "Update bloqueado en DEV por mantenimiento"
+  pagination:
+    max-size: 20
+  defaults:
+    name: "User_Dev"
+    age: 25

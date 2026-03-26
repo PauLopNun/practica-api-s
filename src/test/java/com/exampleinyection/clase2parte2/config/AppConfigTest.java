@@ -25,4 +25,15 @@ public class AppConfigTest {
         config.setUpdate(up);
         assertEquals(up, config.getUpdate());
     }
+
+    @Test
+    void testSpringContextHelper() {
+        SpringContextHelper helper = new SpringContextHelper();
+        org.springframework.context.ApplicationContext context = org.mockito.Mockito.mock(org.springframework.context.ApplicationContext.class);
+        helper.setApplicationContext(context);
+        org.mockito.Mockito.when(context.getBean(String.class)).thenReturn("TestBean");
+        
+        String result = SpringContextHelper.getBean(String.class);
+        assertEquals("TestBean", result);
+    }
 }

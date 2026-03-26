@@ -6,12 +6,14 @@ import com.exampleinyection.clase2parte2.model.User;
 import com.exampleinyection.clase2parte2.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api")
+@Validated
 public class UserController {
 
     private final UserService userService;
