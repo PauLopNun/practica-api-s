@@ -13,40 +13,122 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @ConfigurationProperties(prefix = "app")
 @Validated
-@Getter
-@Setter
 public class AppConfig {
 
     @NotBlank(message = "El nombre de la app no puede estar vacío")
     private String name;
 
-    @NotNull @Valid
-    private UpdateSettings update;
+    // Propiedad sensible que viene de variable de entorno
+    @NotBlank(message = "La contraseña no puede estar vacía")
+    private String password;
 
     @NotNull @Valid
-    private PaginationSettings pagination;
+    private UpdateSettings update = new UpdateSettings();
 
     @NotNull @Valid
-    private DefaultSettings defaults;
+    private PaginationSettings pagination = new PaginationSettings();
 
-    @Getter @Setter
+    @NotNull @Valid
+    private DefaultSettings defaults = new DefaultSettings();
+
+    /* Getters and Setters para testing funcional con coverage
+      por eso no uso Lombok aquí  */
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UpdateSettings getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(UpdateSettings update) {
+        this.update = update;
+    }
+
+    public PaginationSettings getPagination() {
+        return pagination;
+    }
+
+    public void setPagination(PaginationSettings pagination) {
+        this.pagination = pagination;
+    }
+
+    public DefaultSettings getDefaults() {
+        return defaults;
+    }
+
+    public void setDefaults(DefaultSettings defaults) {
+        this.defaults = defaults;
+    }
+
     public static class UpdateSettings {
         private boolean disabled;
         @NotBlank
-        private String message;
+        private String message = "";
+
+        public boolean isDisabled() {
+            return disabled;
+        }
+
+        public void setDisabled(boolean disabled) {
+            this.disabled = disabled;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 
-    @Getter @Setter
     public static class PaginationSettings {
         @Min(1)
-        private int maxSize;
+        private int maxSize = 10;
+
+        public int getMaxSize() {
+            return maxSize;
+        }
+
+        public void setMaxSize(int maxSize) {
+            this.maxSize = maxSize;
+        }
     }
 
-    @Getter @Setter
     public static class DefaultSettings {
         @NotBlank
-        private String name;
+        private String name = "";
         @Min(0)
-        private int age;
+        private int age = 0;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
     }
 }

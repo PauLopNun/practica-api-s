@@ -1,5 +1,6 @@
 app:
   name: "Mi App GFT - LOCAL"
+  password: ${DB_PASSWORD:default_local_password}
   update:
     disabled: false
     message: "No se puede actualizar ahora mismo"

@@ -1,5 +1,6 @@
 app:
   name: "Mi App GFT REAL"
+  password: ${DB_PASSWORD:prod_password_securely_set}
   update:
     disabled: true
     message: "¡PELIGRO! No se puede actualizar en PRODUCCIÓN"

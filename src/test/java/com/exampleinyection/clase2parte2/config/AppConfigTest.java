@@ -5,6 +5,13 @@ public class AppConfigTest {
     @Test
     void testConfig() {
         AppConfig config = new AppConfig();
+        
+        config.setName("GFTApp");
+        assertEquals("GFTApp", config.getName());
+
+        config.setPassword("mySecurePassword123");
+        assertEquals("mySecurePassword123", config.getPassword());
+        
         AppConfig.DefaultSettings def = new AppConfig.DefaultSettings();
         def.setName("A");
         def.setAge(10);
