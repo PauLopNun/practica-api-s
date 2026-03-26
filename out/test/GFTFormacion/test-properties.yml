@@ -1,0 +1,12 @@
+app:
+  name: "Integration Test Configuration"
+  password: "file_based_password"
+  update:
+    disabled: false
+    message: "Updates enabled in test"
+  pagination:
+    max-size: 15
+  defaults:
+    name: "File-based Default"
+    age: 19
+
