@@ -27,11 +27,11 @@ public class UserService {
 
     public User saveUser(UserRequest request) {
         String userNameWithDefault = (request.name() == null || request.name().isBlank())
-                ? appConfig.getDefaults().getName()
+                ? appConfig.getCommon().getDefaults().getName()
                 : request.name();
 
         int userAgeWithDefault = (request.age() == null || request.age() <= 0)
-                ? appConfig.getDefaults().getAge()
+                ? appConfig.getCommon().getDefaults().getAge()
                 : request.age();
 
         User newUser = new User(
@@ -93,7 +93,7 @@ public class UserService {
 
     public List<User> getPaginatedUsers(int page, int size) {
         if (page < 1) page = 1;
-        int maxSize = appConfig.getPagination().getMaxSize();
+        int maxSize = appConfig.getCommon().getPagination().getMaxSize();
         int finalSize = Math.min(size, maxSize);
         int skip = (page - 1) * finalSize;
 

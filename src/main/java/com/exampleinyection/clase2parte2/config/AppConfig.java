@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Max;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -18,18 +18,21 @@ public class AppConfig {
     @NotBlank(message = "El nombre de la app no puede estar vacío")
     private String name;
 
-    @NotBlank(message = "La contraseña no puede estar vacía")
-    private String password;
+    @Pattern(regexp = "DEV|PROD|LOCAL|TEST", message = "El entorno debe ser DEV, PROD, LOCAL o TEST")
+    private String environment = "LOCAL";
+
+    @Min(1)
+    @Max(100)
+    private int poolSize = 10;
+
+    @NotNull @Valid
+    private DatabaseSettings database = new DatabaseSettings();
+
+    @NotNull @Valid
+    private CommonSettings common = new CommonSettings();
 
     @NotNull @Valid
     private UpdateSettings update = new UpdateSettings();
-
-    @NotNull @Valid
-    private PaginationSettings pagination = new PaginationSettings();
-
-    @NotNull @Valid
-    private DefaultSettings defaults = new DefaultSettings();
-
 
     public String getName() {
         return name;
@@ -39,12 +42,36 @@ public class AppConfig {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEnvironment() {
+        return environment;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+    }
+
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    public void setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
+    }
+
+    public DatabaseSettings getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DatabaseSettings database) {
+        this.database = database;
+    }
+
+    public CommonSettings getCommon() {
+        return common;
+    }
+
+    public void setCommon(CommonSettings common) {
+        this.common = common;
     }
 
     public UpdateSettings getUpdate() {
@@ -55,20 +82,51 @@ public class AppConfig {
         this.update = update;
     }
 
-    public PaginationSettings getPagination() {
-        return pagination;
+    public static class DatabaseSettings {
+        @NotBlank(message = "La contraseña no puede estar vacía")
+        private String password;
+
+        private String url;
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
 
-    public void setPagination(PaginationSettings pagination) {
-        this.pagination = pagination;
-    }
+    public static class CommonSettings {
+        @NotNull @Valid
+        private PaginationSettings pagination = new PaginationSettings();
 
-    public DefaultSettings getDefaults() {
-        return defaults;
-    }
+        @NotNull @Valid
+        private DefaultSettings defaults = new DefaultSettings();
 
-    public void setDefaults(DefaultSettings defaults) {
-        this.defaults = defaults;
+        public PaginationSettings getPagination() {
+            return pagination;
+        }
+
+        public void setPagination(PaginationSettings pagination) {
+            this.pagination = pagination;
+        }
+
+        public DefaultSettings getDefaults() {
+            return defaults;
+        }
+
+        public void setDefaults(DefaultSettings defaults) {
+            this.defaults = defaults;
+        }
     }
 
     public static class UpdateSettings {
@@ -95,6 +153,7 @@ public class AppConfig {
 
     public static class PaginationSettings {
         @Min(1)
+        @Max(1000)
         private int maxSize = 10;
 
         public int getMaxSize() {

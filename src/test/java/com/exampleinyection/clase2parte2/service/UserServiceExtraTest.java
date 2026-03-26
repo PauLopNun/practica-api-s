@@ -16,13 +16,13 @@ class UserServiceExtraTest {
         AppConfig.DefaultSettings defaults = new AppConfig.DefaultSettings();
         defaults.setName("DefaultName");
         defaults.setAge(18);
-        appConfig.setDefaults(defaults);
+        appConfig.getCommon().setDefaults(defaults);
         AppConfig.UpdateSettings update = new AppConfig.UpdateSettings();
         update.setDisabled(false);
         appConfig.setUpdate(update);
         AppConfig.PaginationSettings pagination = new AppConfig.PaginationSettings();
         pagination.setMaxSize(100);
-        appConfig.setPagination(pagination);
+        appConfig.getCommon().setPagination(pagination);
         userService = new UserService(appConfig);
     }
     @Test
@@ -47,7 +47,7 @@ class UserServiceExtraTest {
     void testExceedMaxSizePagination() {
         userService.saveUser(new UserRequest("A", 20, null));
         userService.saveUser(new UserRequest("B", 20, null));
-        appConfig.getPagination().setMaxSize(1);
+        appConfig.getCommon().getPagination().setMaxSize(1);
         List<User> list = userService.getPaginatedUsers(1, 10);
         assertEquals(1, list.size());
     }

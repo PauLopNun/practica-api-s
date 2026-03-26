@@ -17,13 +17,13 @@ class UserServiceTest {
         AppConfig.DefaultSettings defaults = new AppConfig.DefaultSettings();
         defaults.setName("DefaultName");
         defaults.setAge(18);
-        appConfig.setDefaults(defaults);
+        appConfig.getCommon().setDefaults(defaults);
         AppConfig.UpdateSettings update = new AppConfig.UpdateSettings();
         update.setDisabled(false);
         appConfig.setUpdate(update);
         AppConfig.PaginationSettings pagination = new AppConfig.PaginationSettings();
         pagination.setMaxSize(100);
-        appConfig.setPagination(pagination);
+        appConfig.getCommon().setPagination(pagination);
         userService = new UserService(appConfig);
     }
     @Test

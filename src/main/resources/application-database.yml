@@ -1,0 +1,4 @@
+﻿app:
+  database:
+    password: default_db_password
+    url: jdbc:h2:mem:testdb

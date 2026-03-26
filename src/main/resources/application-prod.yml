@@ -1,11 +1,15 @@
-app:
+﻿app:
   name: "Mi App GFT REAL"
-  password: ${DB_PASSWORD:prod_password_securely_set}
+  environment: PROD
+  pool-size: 100
+  database:
+    password: ${DB_PASSWORD:prod_password_securely_set}
   update:
     disabled: true
-    message: "¡PELIGRO! No se puede actualizar en PRODUCCIÓN"
-  pagination:
-    max-size: 100
-  defaults:
-    name: "Usuario_Anonimo"
-    age: 18
+    message: "PELIGRO! No se puede actualizar en PRODUCCIÓN"
+  common:
+    pagination:
+      max-size: 100
+    defaults:
+      name: "Usuario_Anonimo"
+      age: 18

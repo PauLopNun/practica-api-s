@@ -1,11 +1,15 @@
-app:
+﻿app:
   name: "Mi App GFT - LOCAL"
-  password: ${DB_PASSWORD:default_local_password}
+  environment: LOCAL
+  pool-size: 20
+  database:
+    password: ${DB_PASSWORD:default_local_password}
   update:
     disabled: false
     message: "No se puede actualizar ahora mismo"
-  pagination:
-    max-size: 50
-  defaults:
-    name: "Usuario Anónimo"
-    age: 18
+  common:
+    pagination:
+      max-size: 50
+    defaults:
+      name: "Usuario Anónimo"
+      age: 18

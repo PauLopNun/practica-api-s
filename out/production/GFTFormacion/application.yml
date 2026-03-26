@@ -3,4 +3,11 @@ spring:
     name: GFTSpringBoot
   profiles:
     active: local
+  config:
+    import:
+      - classpath:application-common.yml
+      - classpath:application-database.yml
 
+app:
+  environment: LOCAL
+  pool-size: 10

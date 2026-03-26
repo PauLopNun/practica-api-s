@@ -1,11 +1,15 @@
 app:
   name: "GFT - Entorno DESARROLLO"
-  password: ${DB_PASSWORD:dev_password_123}
+  environment: DEV
+  pool-size: 50
+  database:
+    password: ${DB_PASSWORD:dev_password_123}
   update:
     disabled: true
     message: "Update bloqueado en DEV por mantenimiento"
-  pagination:
-    max-size: 20
-  defaults:
-    name: "User_Dev"
-    age: 25
+  common:
+    pagination:
+      max-size: 20
+    defaults:
+      name: "User_Dev"
+      age: 25

@@ -9,21 +9,30 @@ public class AppConfigTest {
         config.setName("GFTApp");
         assertEquals("GFTApp", config.getName());
 
-        config.setPassword("mySecurePassword123");
-        assertEquals("mySecurePassword123", config.getPassword());
+        config.setEnvironment("DEV");
+        assertEquals("DEV", config.getEnvironment());
+        
+        config.setPoolSize(50);
+        assertEquals(50, config.getPoolSize());
+
+        config.getDatabase().setPassword("mySecurePassword123");
+        assertEquals("mySecurePassword123", config.getDatabase().getPassword());
+        
+        config.getDatabase().setUrl("jdbc:h2:mem:testdb");
+        assertEquals("jdbc:h2:mem:testdb", config.getDatabase().getUrl());
         
         AppConfig.DefaultSettings def = new AppConfig.DefaultSettings();
         def.setName("A");
         def.setAge(10);
         assertEquals("A", def.getName());
         assertEquals(10, def.getAge());
-        config.setDefaults(def);
-        assertEquals(def, config.getDefaults());
+        config.getCommon().setDefaults(def);
+        assertEquals(def, config.getCommon().getDefaults());
         AppConfig.PaginationSettings pag = new AppConfig.PaginationSettings();
         pag.setMaxSize(50);
         assertEquals(50, pag.getMaxSize());
-        config.setPagination(pag);
-        assertEquals(pag, config.getPagination());
+        config.getCommon().setPagination(pag);
+        assertEquals(pag, config.getCommon().getPagination());
         AppConfig.UpdateSettings up = new AppConfig.UpdateSettings();
         up.setDisabled(true);
         up.setMessage("No");
