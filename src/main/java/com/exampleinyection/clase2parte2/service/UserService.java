@@ -1,6 +1,7 @@
 package com.exampleinyection.clase2parte2.service;
 
 import com.exampleinyection.clase2parte2.config.AppConfig;
+import com.exampleinyection.clase2parte2.dto.UserRequest; // Importamos el DTO
 import com.exampleinyection.clase2parte2.exception.UserNotFoundException;
 import com.exampleinyection.clase2parte2.model.User;
 import lombok.Getter;
@@ -24,21 +25,21 @@ public class UserService {
         this.appConfig = appConfig;
     }
 
-    public User saveUser(User user) {
-
-        String nombreFinal = (user.getNombre() == null || user.getNombre().isBlank())
+    public User saveUser(UserRequest request) {
+        // En los records se accede así: request.nombre()
+        String nombreFinal = (request.nombre() == null || request.nombre().isBlank())
                 ? appConfig.getDefaults().getName()
-                : user.getNombre();
+                : request.nombre();
 
-        int edadFinal = (user.getEdad() <= 0)
+        int edadFinal = (request.edad() <= 0)
                 ? appConfig.getDefaults().getAge()
-                : user.getEdad();
+                : request.edad();
 
         User newUser = new User(
                 nextId++,
                 nombreFinal,
                 edadFinal,
-                user.getAllergy()
+                request.allergy()
         );
         users.add(newUser);
         return newUser;
@@ -56,20 +57,19 @@ public class UserService {
         users.remove(user);
     }
 
-    public User updateUser(Long id, User userDetails) {
-
+    public User updateUser(Long id, UserRequest request) {
         User existingUser = getUserById(id);
 
         if (appConfig.getUpdate().isDisabled()) {
             throw new ResponseStatusException(
-                    org.springframework.http.HttpStatus.FORBIDDEN,
+                    HttpStatus.FORBIDDEN,
                     appConfig.getUpdate().getMessage()
             );
         }
 
-        existingUser.setNombre(userDetails.getNombre());
-        existingUser.setEdad(userDetails.getEdad());
-        existingUser.setAllergy(userDetails.getAllergy());
+        existingUser.setNombre(request.nombre());
+        existingUser.setEdad(request.edad());
+        existingUser.setAllergy(request.allergy());
 
         return existingUser;
     }
@@ -80,7 +80,7 @@ public class UserService {
                 .toList();
     }
 
-    public List<User> saveMultipleUsers(List<User> newUsers) {
+    public List<User> saveMultipleUsers(List<UserRequest> newUsers) {
         return newUsers.stream()
                 .map(this::saveUser)
                 .toList();
@@ -88,10 +88,8 @@ public class UserService {
 
     public List<User> getPaginatedUsers(int page, int size) {
         if (page < 1) page = 1;
-
         int maxSize = appConfig.getPagination().getMaxSize();
         int finalSize = Math.min(size, maxSize);
-
         int skip = (page - 1) * finalSize;
 
         return users.stream()

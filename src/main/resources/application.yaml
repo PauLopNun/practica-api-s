@@ -5,7 +5,7 @@ spring:
 app:
   name: "Mi App GFT"
   update:
-    disabled: true
+    disabled: false
     message: "No se puede actualizar ahora mismo"
   pagination:
     max-size: 50

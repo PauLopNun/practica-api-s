@@ -1,6 +1,7 @@
 package com.exampleinyection.clase2parte2.controller;
 
 import com.exampleinyection.clase2parte2.config.AppConfig;
+import com.exampleinyection.clase2parte2.dto.UserRequest;
 import com.exampleinyection.clase2parte2.model.User;
 import com.exampleinyection.clase2parte2.service.UserService;
 import jakarta.validation.Valid;
@@ -34,8 +35,8 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody @Valid User user) {
-        return userService.saveUser(user);
+    public User createUser(@RequestBody @Valid UserRequest request) {
+        return userService.saveUser(request);
     }
 
     @DeleteMapping("/{id}")
@@ -44,17 +45,15 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // --- NUEVO MÉTODO DE BORRADO MASIVO ---
     @DeleteMapping("/all")
     public ResponseEntity<Void> deleteAllUsers() {
         userService.deleteAllUsers();
         return ResponseEntity.noContent().build();
     }
-    // --------------------------------------
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UserRequest request) {
+        User updatedUser = userService.updateUser(id, request);
         return ResponseEntity.ok(updatedUser);
     }
 
@@ -65,8 +64,8 @@ public class UserController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<User>> createMultipleUsers(@RequestBody @Valid List<User> users) {
-        return ResponseEntity.ok(userService.saveMultipleUsers(users));
+    public ResponseEntity<List<User>> createMultipleUsers(@RequestBody @Valid List<UserRequest> requests) {
+        return ResponseEntity.ok(userService.saveMultipleUsers(requests));
     }
 
     @GetMapping("/config")
