@@ -1649,3 +1649,5 @@ com.exampleinyection.clase2parte2.exception.UserNotFoundException: No existe el 
 2026-03-30 16:37:44,787 DEBUG [main] c.e.c.a.LoggingAspect [LoggingAspect.java:34] -- after calling com.exampleinyection.clase2parte2.config.AppConfig with result com.exampleinyection.clase2parte2.config.AppConfig$CommonSettings@126606bc in 2 ms
 2026-03-30 16:37:44,789 DEBUG [main] c.e.c.a.LoggingAspect [LoggingAspect.java:34] -- after calling com.exampleinyection.clase2parte2.service.UserService with result [User(id=1, name=Paco, age=30, allergies=null)] in 52 ms
 2026-03-30 16:37:44,790 DEBUG [main] c.e.c.a.LoggingAspect [LoggingAspect.java:34] -- after calling com.exampleinyection.clase2parte2.controller.UserController with result [User(id=1, name=Paco, age=30, allergies=null)] in 55 ms
+2026-03-30 16:48:19,304 INFO [SpringApplicationShutdownHook] o.s.b.t.GracefulShutdown [GracefulShutdown.java:54] -- Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-30 16:48:19,311 INFO [tomcat-shutdown] o.s.b.t.GracefulShutdown [GracefulShutdown.java:76] -- Graceful shutdown complete
