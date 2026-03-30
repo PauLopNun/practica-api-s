@@ -67,6 +67,8 @@ class UserTest {
         assertEquals(nullAllergiesA, nullAllergiesB);
         assertEquals(nullFieldsA, nullFieldsB);
         assertEquals(nullFieldsA.hashCode(), nullFieldsB.hashCode());
+        assertNotEquals(nullFieldsA, baseUser);
+        assertNotEquals(baseUser, nullFieldsA);
         assertNotEquals(nullAllergiesA, baseUser);
         assertNotEquals(baseUser, nullAllergiesA);
 
