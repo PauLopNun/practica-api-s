@@ -135,6 +135,18 @@ class AllergyTest {
     }
 
     @Test
+    void testEqualsWithDifferentIds() {
+        Allergy idNull = new Allergy("Dust", 2);            // id = null
+        Allergy idOne  = new Allergy(1L, "Dust", 2, null);  // id = 1L
+        Allergy idTwo  = new Allergy(2L, "Dust", 2, null);  // id = 2L
+
+        // null id vs non-null id → cubre rama: this.id==null && other.id!=null
+        assertNotEquals(idNull, idOne);
+        // non-null id vs distinto non-null id → cubre rama: this.id!=null && !equals(other.id)
+        assertNotEquals(idOne, idTwo);
+    }
+
+    @Test
     void testEqualsAndHashCodeWithUsersField() {
         User user = new User();
         user.setId(1L);

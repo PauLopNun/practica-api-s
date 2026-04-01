@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(mvn test:*)",
-      "Bash(./mvnw test:*)"
+      "Bash(./mvnw test:*)",
+      "Bash(python3 -c \":*)",
+      "Bash(grep -c '\"\"nc\"\"' target/site/jacoco/com.exampleinyection.clase2parte2.service/UserService.java.html)"
     ]
   }
 }

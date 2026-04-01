@@ -149,6 +149,7 @@ class UserServiceTest {
         assertEquals(1, userService.getPaginatedUsers(2, 1).size());
 
         assertEquals(appConfig, userService.getAppConfig());
+        assertNull(userService.getUserRepository());
 
         userService.deleteAllUsers();
         assertEquals(0, userService.getUsers().size());
@@ -224,6 +225,15 @@ class UserServiceTest {
         assertEquals(1, svc.getPaginatedUsers(1, 10).size());
         svc.deleteAllUsers();
         verify(repo).deleteAll();
+    }
+
+    @Test
+    void testRepoBranchGetUserByIdNotFound() {
+        UserRepository repo = mock(UserRepository.class);
+        UserService svc = new UserService(appConfig, repo);
+
+        when(repo.findById(99L)).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class, () -> svc.getUserById(99L));
     }
 
     @Test
