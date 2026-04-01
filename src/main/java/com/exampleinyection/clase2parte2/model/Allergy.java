@@ -5,9 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -22,7 +24,14 @@ public class Allergy {
     private int severity;
 
     @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
     private User user;
+
+    public Allergy(String name, int severity) {
+        this.name = name;
+        this.severity = severity;
+    }
     
     public Allergy toDTO(Allergy allergy) {
         if (allergy == null) {

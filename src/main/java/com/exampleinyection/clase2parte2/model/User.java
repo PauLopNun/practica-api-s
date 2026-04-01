@@ -28,7 +28,7 @@ public class User {
     @Min(0) @Max(120)
     private int age;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     private List<Allergy> allergies;
 }

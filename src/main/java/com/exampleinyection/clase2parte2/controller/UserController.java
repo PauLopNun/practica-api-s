@@ -59,10 +59,15 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @GetMapping("/user/search")
-    public ResponseEntity<List<User>> searchUsers(@RequestParam String nombre) {
-        List<User> usersFound = userService.searchByName(nombre);
-        return ResponseEntity.ok(usersFound);
+    @PatchMapping("/{id}/name")
+    public ResponseEntity<Void> updateUserName(@PathVariable Long id, @RequestParam String name) {
+        userService.updateUserName(id, name);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search")
+    public List<User> search(@RequestParam String name) {
+        return userService.searchByName(name);
     }
 
     @PostMapping("/batch")

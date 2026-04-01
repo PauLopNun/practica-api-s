@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -152,5 +153,38 @@ class UserServiceTest {
         userService.deleteAllUsers();
         assertEquals(0, userService.getUsers().size());
         userService.getNextId();
+    }
+
+    @Test
+    void testGetUsersWithRepository() {
+        User user1 = new User(1L, "TestUser", 20, List.of(new Allergy(1L, "Dust", 2, null)));
+        User user2 = new User(2L, "TestUser2", 30, null);
+
+        // When repository is provided (injected via constructor, let's mock it)
+        com.exampleinyection.clase2parte2.repository.UserRepository repo = org.mockito.Mockito.mock(com.exampleinyection.clase2parte2.repository.UserRepository.class);
+        UserService serviceWithRepo = new UserService(appConfig, repo);
+
+        org.mockito.Mockito.when(repo.findAll()).thenReturn(List.of(user1, user2));
+
+        List<User> result = serviceWithRepo.getUsers();
+
+        assertEquals(2, result.size());
+        // Verify mapping worked without cycles
+        assertNull(result.get(0).getAllergies().get(0).getUser());
+        assertEquals("Dust", result.get(0).getAllergies().get(0).getName());
+        assertEquals(2, result.get(0).getAllergies().get(0).getSeverity());
+        assertNull(result.get(1).getAllergies());
+    }
+
+    @Test
+    void testGetUsersWithoutRepository() {
+        // As defined in the current mock setup, userRepository is injected but let's test the fallback
+        UserService serviceNoRepo = new UserService(appConfig, null);
+        serviceNoRepo.saveUser(new UserRequest("NoRepoUser", 25, List.of(new Allergy("Peanuts", 5))));
+
+        List<User> result = serviceNoRepo.getUsers();
+        assertEquals(1, result.size());
+        assertEquals("NoRepoUser", result.get(0).getName());
+        assertNull(result.get(0).getAllergies().get(0).getUser());
     }
 }

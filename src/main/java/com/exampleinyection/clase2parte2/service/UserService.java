@@ -38,17 +38,30 @@ public class UserService {
                 ? appConfig.getCommon().getDefaults().getAge()
                 : request.age();
 
-        User newUser = new User(
-                nextId++,
-                userNameWithDefault,
-                userAgeWithDefault,
-                request.allergies()
-        );
-        users.add(newUser);
-        return newUser;
+        User newUser = new User();
+        newUser.setName(userNameWithDefault);
+        newUser.setAge(userAgeWithDefault);
+
+        if (request.allergies() != null) {
+            newUser.setAllergies(request.allergies());
+            for (Allergy allergy : request.allergies()) {
+                allergy.setUser(newUser);
+            }
+        }
+
+        if (userRepository != null) {
+            return userRepository.save(newUser);
+        } else {
+            newUser.setId(nextId++);
+            users.add(newUser);
+            return newUser;
+        }
     }
 
     public User getUserById(Long id) {
+        if (userRepository != null) {
+            return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("No existe el usuario con id: " + id));
+        }
         return users.stream()
                 .filter(user -> user.getId().equals(id))
                 .findFirst()
@@ -57,7 +70,11 @@ public class UserService {
 
     public void deleteUser(Long id) {
         User user = getUserById(id);
-        users.remove(user);
+        if (userRepository != null) {
+            userRepository.delete(user);
+        } else {
+            users.remove(user);
+        }
     }
 
     public User updateUser(Long id, UserRequest request) {
@@ -78,14 +95,27 @@ public class UserService {
         }
         if (request.allergies() != null) {
             existingUser.setAllergies(request.allergies());
+            for (Allergy allergy : request.allergies()) {
+                allergy.setUser(existingUser);
+            }
+        }
+
+        if (userRepository != null) {
+            return userRepository.save(existingUser);
         }
 
         return existingUser;
     }
 
     public List<User> searchByName(String nameSearchTerm) {
-        return users.stream()
-                .filter(user -> StringUtils.containsIgnoreCase(user.getName(), nameSearchTerm))
+        List<User> sourceUsers = userRepository != null 
+                ? userRepository.findByNameContainingIgnoreCase(nameSearchTerm)
+                : users.stream()
+                    .filter(user -> StringUtils.containsIgnoreCase(user.getName(), nameSearchTerm))
+                    .toList();
+
+        return sourceUsers.stream()
+                .map(this::mapUserWithoutCycles)
                 .toList();
     }
 
@@ -101,14 +131,25 @@ public class UserService {
         int finalSize = Math.min(size, maxSize);
         int skip = (page - 1) * finalSize;
 
-        return users.stream()
+        List<User> sourceUsers = userRepository != null ? userRepository.findAll() : users;
+
+        return sourceUsers.stream()
                 .skip(skip)
                 .limit(finalSize)
                 .toList();
     }
 
+    public void updateUserName(Long id, String name) {
+        int updated = userRepository.updateNameById(id, name);
+        if (updated == 0) throw new UserNotFoundException("No existe el usuario con id: " + id);
+    }
+
     public void deleteAllUsers() {
-        users.clear();
+        if (userRepository != null) {
+            userRepository.deleteAll();
+        } else {
+            users.clear();
+        }
     }
 
     public List<User> getUsers() {
